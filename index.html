@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MERN Stack Admin Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Login Page -->
+    <div id="login-page" class="login-page">
+        <div class="login-background"></div>
+        <div class="login-container">
+            <div class="login-card">
+                <div class="login-header">
+                    <div class="logo-container">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h2>MERN Admin</h2>
+                    <p>Sign in to access your dashboard</p>
+                </div>
+                <form id="login-form" class="login-form">
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email Address</label>
+                        <div class="input-container">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="email" class="form-control glow-input" placeholder="admin@test.com" required>
+                        </div>
+                        <div class="error-message" id="email-error"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="form-label">Password</label>
+                        <div class="input-container">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="password" class="form-control glow-input" placeholder="admin123" required>
+                        </div>
+                        <div class="error-message" id="password-error"></div>
+                    </div>
+                    <button type="submit" class="btn btn-glow btn-primary" id="login-btn">
+                        <span class="btn-text">Sign In</span>
+                        <div class="loading-spinner hidden">
+                            <i class="fas fa-spinner fa-spin"></i>
+                        </div>
+                    </button>
+                    <div class="error-message" id="login-error"></div>
+                </form>
+                <div class="login-help">
+                    <p>Demo credentials: admin@test.com / admin123</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App Container -->
+    <div id="app-container" class="app-container hidden">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <i class="fas fa-code"></i>
+                    <h3>MERN Admin</h3>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-page="dashboard">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-item" data-page="agents">
+                    <i class="fas fa-users"></i>
+                    <span>Agent Management</span>
+                </a>
+                <a href="#" class="nav-item" data-page="upload">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <span>File Upload</span>
+                </a>
+                <a href="#" class="nav-item" data-page="distribution">
+                    <i class="fas fa-share-alt"></i>
+                    <span>Distribution</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="btn btn-glow btn-outline" id="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="header-content">
+                    <h1 id="page-title">Dashboard</h1>
+                    <div class="header-actions">
+                        <div class="user-info">
+                            <i class="fas fa-user-circle"></i>
+                            <span>Welcome, Admin</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Page -->
+            <div id="dashboard-page" class="page-content">
+                <div class="stats-grid">
+                    <div class="stat-card card-glow">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="total-agents">5</h3>
+                            <p>Total Agents</p>
+                        </div>
+                        <div class="stat-trend">
+                            <i class="fas fa-arrow-up"></i>
+                        </div>
+                    </div>
+                    <div class="stat-card card-glow">
+                        <div class="stat-icon success">
+                            <i class="fas fa-file-upload"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="total-files">0</h3>
+                            <p>Files Uploaded</p>
+                        </div>
+                        <div class="stat-trend">
+                            <i class="fas fa-arrow-up"></i>
+                        </div>
+                    </div>
+                    <div class="stat-card card-glow">
+                        <div class="stat-icon warning">
+                            <i class="fas fa-list"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="total-items">0</h3>
+                            <p>Total Items</p>
+                        </div>
+                        <div class="stat-trend">
+                            <i class="fas fa-equals"></i>
+                        </div>
+                    </div>
+                    <div class="stat-card card-glow">
+                        <div class="stat-icon info">
+                            <i class="fas fa-chart-pie"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="distributions-count">0</h3>
+                            <p>Distributions</p>
+                        </div>
+                        <div class="stat-trend">
+                            <i class="fas fa-arrow-up"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="dashboard-cards">
+                    <div class="dashboard-card card-glow">
+                        <h3>Recent Activity</h3>
+                        <div class="activity-list" id="activity-list">
+                            <div class="activity-item">
+                                <i class="fas fa-plus-circle"></i>
+                                <span>System initialized with 5 agents</span>
+                                <small>Just now</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dashboard-card card-glow">
+                        <h3>Quick Actions</h3>
+                        <div class="quick-actions">
+                            <button class="btn btn-glow btn-primary" data-action="add-agent">
+                                <i class="fas fa-user-plus"></i>
+                                Add Agent
+                            </button>
+                            <button class="btn btn-glow btn-secondary" data-action="upload-file">
+                                <i class="fas fa-upload"></i>
+                                Upload CSV
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Agents Page -->
+            <div id="agents-page" class="page-content hidden">
+                <div class="page-header">
+                    <div class="page-actions">
+                        <div class="search-container">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="agent-search" class="form-control glow-input" placeholder="Search agents...">
+                        </div>
+                        <button class="btn btn-glow btn-primary" id="add-agent-btn">
+                            <i class="fas fa-plus"></i>
+                            Add Agent
+                        </button>
+                    </div>
+                </div>
+                <div class="agents-grid" id="agents-grid">
+                    <!-- Agents will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Upload Page -->
+            <div id="upload-page" class="page-content hidden">
+                <div class="upload-container">
+                    <div class="upload-card card-glow">
+                        <h3>Upload CSV File</h3>
+                        <p>Upload a CSV file with FirstName, Phone, and Notes columns</p>
+                        <div class="file-upload-area" id="file-upload-area">
+                            <div class="upload-content">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>Drag and drop your CSV file here</p>
+                                <p>or</p>
+                                <button type="button" class="btn btn-glow btn-secondary" id="browse-btn">
+                                    <i class="fas fa-folder-open"></i>
+                                    Browse Files
+                                </button>
+                                <input type="file" id="file-input" accept=".csv,.xlsx,.xls" hidden>
+                            </div>
+                        </div>
+                        <div class="file-info hidden" id="file-info">
+                            <div class="file-details">
+                                <i class="fas fa-file-csv"></i>
+                                <div class="file-meta">
+                                    <h4 id="file-name"></h4>
+                                    <p id="file-size"></p>
+                                </div>
+                            </div>
+                            <div class="file-actions">
+                                <button class="btn btn-glow btn-success" id="process-file-btn">
+                                    <i class="fas fa-cogs"></i>
+                                    Process File
+                                </button>
+                                <button class="btn btn-glow btn-outline" id="clear-file-btn">
+                                    <i class="fas fa-times"></i>
+                                    Clear
+                                </button>
+                            </div>
+                        </div>
+                        <div class="upload-progress hidden" id="upload-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progress-fill"></div>
+                            </div>
+                            <p id="progress-text">Processing file...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Distribution Page -->
+            <div id="distribution-page" class="page-content hidden">
+                <div class="distribution-header">
+                    <h3>Distribution Results</h3>
+                    <p id="distribution-summary">No distributions yet. Upload a CSV file to get started.</p>
+                </div>
+                <div class="distribution-grid" id="distribution-grid">
+                    <!-- Distribution results will be populated by JavaScript -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add Agent Modal -->
+    <div id="agent-modal" class="modal hidden">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="agent-modal-title">Add New Agent</h3>
+                <button class="modal-close" id="close-agent-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="agent-form" class="modal-body">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="agent-name" class="form-label">Full Name</label>
+                        <div class="input-container">
+                            <i class="fas fa-user"></i>
+                            <input type="text" id="agent-name" class="form-control glow-input" placeholder="Enter full name" required>
+                        </div>
+                        <div class="error-message" id="agent-name-error"></div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="agent-email" class="form-label">Email Address</label>
+                        <div class="input-container">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="agent-email" class="form-control glow-input" placeholder="Enter email address" required>
+                        </div>
+                        <div class="error-message" id="agent-email-error"></div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="agent-mobile" class="form-label">Mobile Number with Country Code</label>
+                        <div class="input-container">
+                            <i class="fas fa-phone"></i>
+                            <input type="tel" id="agent-mobile" class="form-control glow-input" placeholder="+1-555-0123" required>
+                        </div>
+                        <div class="error-message" id="agent-mobile-error"></div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="agent-password" class="form-label">Password</label>
+                        <div class="input-container">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="agent-password" class="form-control glow-input" placeholder="Enter password (min 6 characters)" required>
+                        </div>
+                        <div class="error-message" id="agent-password-error"></div>
+                    </div>
+                </div>
+            </form>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-glow btn-outline" id="cancel-agent">Cancel</button>
+                <button type="submit" form="agent-form" class="btn btn-glow btn-primary" id="save-agent">
+                    <i class="fas fa-save"></i>
+                    Save Agent
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirm Modal -->
+    <div id="confirm-modal" class="modal hidden">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content small">
+            <div class="modal-header">
+                <h3 id="confirm-title">Confirm Action</h3>
+                <button class="modal-close" id="close-confirm-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="confirm-message">Are you sure you want to proceed?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-glow btn-outline" id="confirm-cancel">Cancel</button>
+                <button type="button" class="btn btn-glow btn-primary" id="confirm-ok">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
